@@ -1,5 +1,6 @@
 <template>
   <div>
+    <tool-box></tool-box>
     <h1 class="title">具有增强免疫力、补钙及抗衰老功能的食品 </h1>
     <el-tabs type="border-card" class="search-tabs">
       <el-tab-pane>
@@ -26,12 +27,14 @@ import PatentInfo from 'components/PatentInfo'
 import Claim from 'components/Claim'
 import Description from 'components/Description'
 import Abstract from 'components/Abstract'
+import ToolBox from 'components/ToolBox'
 export default {
   components: {
     PatentInfo,
     Claim,
     Description,
-    Abstract
+    Abstract,
+    ToolBox
   }
 }
 </script>
