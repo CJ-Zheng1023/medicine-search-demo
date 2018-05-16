@@ -1,0 +1,23 @@
+.banner{
+  background-image: url("../images/header-bg.png");
+  height: 86px;
+}
+.logo{
+  position: relative;
+  padding-left: 55px;
+  background-image: url("../images/logo.png");
+  color: #fff;
+  font-size: 30px;
+  line-height: 86px;
+  background-repeat: no-repeat;
+  background-position: 2px center;
+  text-align: left;
+  margin-left: 25px;
+}
+.content-patent{
+  padding: 20px 60px;
+  min-height: 400px;
+ }
+.content-patent p{
+  line-height: 1.5;
+}
