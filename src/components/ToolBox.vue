@@ -3,15 +3,15 @@
     <i class="el-icon-close btn-close" @click="closeToolBox"></i>
     <ul class="tool-bar" ref="toolbar">
       <li>
-        <a href="javascript:;" @click="clickMenu('cn-dictionary', $event)">
+        <a href="javascript:;" @click="clickMenu('dictionary', $event)">
           <i class="el-icon-tickets"></i>
-          <span>中文辞典</span>
+          <span>中英辞典</span>
         </a>
       </li>
       <li>
-        <a href="javascript:;" @click="clickMenu('en-dictionary', $event)">
+        <a href="javascript:;" @click="clickMenu('custom-dictionary', $event)">
           <i class="el-icon-document"></i>
-          <span>英文辞典</span>
+          <span>个人词库</span>
         </a>
       </li>
       <li>
@@ -33,29 +33,32 @@
         </a>
       </li>
     </ul>
-    <div class="content">
+    <div class="box-header">
+      <h2>{{currentView | showHeaderName}}</h2>
+    </div>
+    <div class="box-content">
       <component :is="currentView"></component>
     </div>
   </div>
 </template>
 <script>
-import CNDictionary from 'components/CNDictionary'
-import ENDictionary from 'components/ENDictionary'
+import Dictionary from 'components/Dictionary'
 import HistoryView from 'components/HistoryView'
 import LatestPatent from 'components/LatestPatent'
+import CustomDictionary from 'components/CustomDictionary'
 export default {
   data () {
     return {
       isOpen: false,
-      currentView: 'cn-dictionary',
+      currentView: 'dictionary',
       menuDoms: null
     }
   },
   components: {
-    'cn-dictionary': CNDictionary,
-    'en-dictionary': ENDictionary,
+    Dictionary,
     HistoryView,
     LatestPatent,
+    CustomDictionary,
     'search-factor': () => import('./SearchFactor')
   },
   mounted () {
@@ -83,28 +86,60 @@ export default {
         item.className = ''
       })
     }
+  },
+  filters: {
+    showHeaderName (value) {
+      let map = {
+        'dictionary': '中英词典',
+        'latest-patent': '近期申请',
+        'history-view': '近期浏览',
+        'search-factor': '要素检索',
+        'custom-dictionary': '个人词库'
+      }
+      return map[value]
+    }
   }
 }
 </script>
 <style scoped>
   .box{
     position: fixed;
-    right: -300px;
+    right: -350px;
     top: 0;
     height: 100%;
     z-index: 10;
     border-left: 6px solid #7a6e6e;
     transition: right .3s .1s;
+    padding-top: 50px;
+    box-sizing: border-box;
   }
   .box.open{
     right: 0;
   }
-  .content{
+  .box-header{
+    background-color: rgb(236, 234, 234);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .box-header h2{
+    margin: 0;
+    line-height: 50px;
+    padding: 0 15px;
+    font-size: 18px;
+    color: rgb(94, 80, 80);
+    font-weight: 400;
+  }
+  .box-content{
     background-color: rgb(236, 234, 234);
     height: 100%;
-    width: 300px;
+    width: 350px;
     z-index: 2;
     position: relative;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
   }
   .tool-bar{
     list-style: none;
