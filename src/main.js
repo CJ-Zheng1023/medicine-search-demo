@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import 'assets/styles/styles.css'
 import ElementUI from 'element-ui'
+import store from './store/index'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css/normalize.css'
 
@@ -17,5 +18,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store
 })

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="search-factor">
     <div v-if="managePanelVisible">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
@@ -8,21 +8,27 @@
         <a :key="item.id" v-for="item in memoryList" class="tag-wrapper" @click="handleSelect(item)">
           <el-tag
             closable
-            :class="{active: item.active}"
             :disable-transitions="false">
             {{item.name}}
           </el-tag>
         </a>
-        <el-button class="button-tag" size="small" @click="managePanelVisible = !managePanelVisible">+ 新建</el-button>
+        <el-button class="button-tag" size="small" @click="clickCreateFactor">+ 新建</el-button>
       </el-card>
     </div>
     <div v-else>
-      <curative-effect :ceData="currentMemory.ceData"></curative-effect>
+      <curative-effect @ce-data-cache='cacheCeData' :factorMemoryId="currentMemory.id"></curative-effect>
+      <div class="button-group">
+        <el-button type="primary" icon="el-icon-search" size="small">检索</el-button>
+        <el-button type="warning" size="small" icon="el-icon-upload" @click="saveFactor">保存</el-button>
+        <el-button type="info" size="small" @click="managePanelVisible = true">返回</el-button>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import CurativeEffect from 'components/CurativeEffect'
+import { mapActions, mapState } from 'vuex'
+let gCeData
 export default {
   components: {
     CurativeEffect
@@ -30,72 +36,95 @@ export default {
   data () {
     return {
       managePanelVisible: true,
-      currentMemory: '',
-      memoryList: [
-        {
-          name: '要素库1',
-          active: false,
-          ceData: {
-            ceList: [
-              {
-                id: +new Date(),
-                name: 'good'
-              },
-              {
-                id: +new Date(),
-                name: 'worse'
-              }
-            ]
-          }
-        },
-        {
-          name: '要素库2',
-          active: false,
-          ceData: {
-            ceList: [
-              {
-                id: +new Date(),
-                name: '12312'
-              },
-              {
-                id: +new Date(),
-                name: '123123'
-              }
-            ]
-          }
-        }
-      ]
+      currentMemory: ''
     }
   },
+  computed: mapState([
+    'memoryList'
+  ]),
+  created () {
+    this.showFactorMemory()
+  },
   methods: {
+    _clearCache () {
+      gCeData = null
+    },
+    backFactorMemory () {
+      this.managePanelVisible = true
+    },
+    clickCreateFactor () {
+      this.currentMemory = ''
+      this.managePanelVisible = false
+      this._clearCache()
+    },
     handleSelect (tag) {
-      this.memoryList.forEach(item => {
-        item.active = false
-      })
       this.currentMemory = tag
-      tag.active = true
-    }
+      this.managePanelVisible = false
+      this._clearCache()
+    },
+    cacheCeData (ceData) {
+      gCeData = ceData
+    },
+    saveFactor () {
+      if (this.currentMemory) {
+        this.updateCeDataById({
+          id: this.currentMemory.id,
+          ceData: gCeData
+        })
+        this.currentMemory = ''
+        this.managePanelVisible = true
+      } else {
+        this.$prompt('请输入要素表名', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(({ value }) => {
+          this.createMemory({
+            id: +new Date(),
+            name: value,
+            ceData: gCeData || {}
+          })
+          this.managePanelVisible = true
+        })
+      }
+    },
+    ...mapActions([
+      'showFactorMemory',
+      'createMemory',
+      'updateCeDataById'
+    ])
   }
 }
 </script>
-<style scoped>
-  .el-button{
-    margin-left: 5px;
-  }
-  .tag-wrapper{
+<style>
+  .search-factor .tag-wrapper{
     display: inline-block;
     margin-bottom: 10px;
   }
-  .tag-wrapper + .tag-wrapper{
-    margin-left: 10px;
+  .search-factor .el-tag, .search-factor .el-card{
+    margin-bottom: 10px;
   }
-  .el-tag{
+  .search-factor .tag-wrapper, .search-factor .el-tag, .search-factor .el-button{
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .search-factor .tag-wrapper .el-tag{
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .search-factor .el-tag{
     cursor: pointer;
     background-color: #fff;
     color: #606266;
   }
-  .el-tag.active{
+  .search-factor .el-tag.active{
     background-color: rgba(64,158,255,.1);
     color: #409eff;
+  }
+  .search-factor .input-tag {
+    width: 90px;
+    margin-left: 10px;
+  }
+  .search-factor .button-group{
+    text-align: center;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="box" :class="{open: isOpen}">
+  <div class="box" :class="{'open': isOpen}">
     <i class="el-icon-close btn-close" @click="closeToolBox"></i>
     <ul class="tool-bar" ref="toolbar">
       <li>
@@ -37,7 +37,9 @@
       <h2>{{currentView | showHeaderName}}</h2>
     </div>
     <div class="box-content">
-      <component :is="currentView"></component>
+      <keep-alive>
+        <component :is="currentView"></component>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -116,6 +118,9 @@ export default {
   .box.open{
     right: 0;
   }
+  .box.show-footer{
+    padding-bottom: 40px;
+  }
   .box-header{
     background-color: rgb(236, 234, 234);
     position: absolute;
@@ -130,6 +135,14 @@ export default {
     font-size: 18px;
     color: rgb(94, 80, 80);
     font-weight: 400;
+  }
+  .box-footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(236, 234, 234);
+    width: 100%;
+    height: 40px;
   }
   .box-content{
     background-color: rgb(236, 234, 234);
