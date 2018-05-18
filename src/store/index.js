@@ -7,7 +7,10 @@ export default new Vuex.Store({
   state () {
     return {
       memoryList: [],
-      ceData: {}
+      ceData: {},
+      dnData: {},
+      dsData: {},
+      sdData: {}
     }
   },
   mutations,
