@@ -2,7 +2,7 @@
   <div>
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
-        <el-input placeholder="审批人"></el-input>
+        <el-input></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>

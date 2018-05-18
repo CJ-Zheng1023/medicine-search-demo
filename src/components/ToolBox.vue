@@ -4,25 +4,25 @@
     <ul class="tool-bar" ref="toolbar">
       <li>
         <a href="javascript:;" @click="clickMenu('dictionary', $event)">
-          <i class="el-icon-tickets"></i>
+          <i class="fa fa-book"></i>
           <span>中英辞典</span>
         </a>
       </li>
       <li>
         <a href="javascript:;" @click="clickMenu('custom-dictionary', $event)">
-          <i class="el-icon-document"></i>
+          <i class="fa fa-address-book-o"></i>
           <span>个人词库</span>
         </a>
       </li>
       <li>
         <a href="javascript:;" @click="clickMenu('latest-patent', $event)">
-          <i class="el-icon-tickets"></i>
+          <i class="fa fa-calendar-minus-o"></i>
           <span>近期申请</span>
         </a>
       </li>
       <li>
         <a href="javascript:;" @click="clickMenu('history-view', $event)">
-          <i class="el-icon-tickets"></i>
+          <i class="fa fa-history"></i>
           <span>近期浏览</span>
         </a>
       </li>

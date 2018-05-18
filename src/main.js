@@ -8,6 +8,7 @@ import ElementUI from 'element-ui'
 import store from './store/index'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css/normalize.css'
+import 'font-awesome/css/font-awesome.css'
 
 Vue.use(ElementUI)
 
